@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<title>Title</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+			
+			<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+			<style type="text/css">
+				  .ng-invalid.ng-dirty
+				  {
+				  	border-color :#FA787E;
+				  }
+				  .ng-valid.ng-dirty
+				  {
+				  	border-color:#78FA89;
+				  }
+ 			 </style>
+	</head>
+	<body ng-controller ="myController as controller">
+
+		<div ng-repeat="product in controller.items">
+			<ul class="nav nav-pills">
+				<li>
+					<h3 ng-include="'product-title.html'"> </h3>
+					<!-- tabs-->
+					<section ng-controller="PanelController as panel">
+					<ul class ="nav nav-pills">
+						<li ng-class="panel.isSelected(1)"> <a href ng-click ="panel.setTab(1)">Description</a></li>
+						<li ng-class="panel.isSelected(2)"> <a href ng-click ="panel.setTab(2)">Specificiations</a></li>
+						<li ng-class="panel.isSelected(3)"> <a href ng-click ="panel.setTab(3)">Reviews</a></li>
+					</ul>
+					<!-- Updates the tab value when clicked -->
+					<div ng-show="panel.isSelected(1)">
+						<h4>Description</h4>
+						<blockquote>{{product.description}}</blockquote>
+					</div>
+
+					<div ng-show="panel.isSelected(2)">
+						<h4>Specificiations</h4>
+						<blockquote>{{product.specs}}</blockquote>
+					</div>
+
+					<div ng-show="panel.isSelected(3)">
+						<h4>Reviews</h4>
+						 <blockquote ng-repeat="review in product.reviews"> 
+					          <b>Stars{{review.stars}} </b>
+					          {{review.body}}
+					          <cite>by: {{review.author}}</cite>
+
+				         </blockquote>
+
+				           <form name="reviewForm" ng-controller="ReviewController as reviewCtrl"
+				           		ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)" novalidate> <!-- turn off default validation -->
+						  <blockquote> 
+						          <b>Stars{{reviewCtrl.review.stars}} </b>
+						          {{reviewCtrl.review.body}}
+						          <cite>by: {{reviewCtrl.review.author}}</cite>
+
+					         </blockquote>
+					         <!-- ng model binds input field value to variable in js-->
+					          	<select ng-model="reviewCtrl.review.stars" required>
+					          		<option value="1">1 start</option>
+					          		<option value="2">2 start</option>
+					          		<option value="3">3 start</option>
+					          		<option value="4">4 start</option>
+					          		<option value="5">5 start</option>
+					          	</select>
+					          	<textarea ng-model="reviewCtrl.review.body" required></textarea>
+					          	<label >by:</label>
+					          	<input ng-model="reviewCtrl.review.author" type= "email" required></input>
+					          	<div>eview form is {{reviewForm.$valid}}</div> <!-- checks validity -->
+					          	<!-- $ references property on the form -->
+					          	<input type="submit" value= "submit"></input>
+					          </form>
+					</div>
+
+					
+
+				</section>
+				
+				</li>
+			</ul>
+		</div>
+
+		<script type="text/javascript" src="myApp.js"></script>
+	</body>
+</html>
