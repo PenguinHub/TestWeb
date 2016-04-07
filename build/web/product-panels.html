@@ -1,0 +1,7 @@
+<section ng-controller="PanelController as panel">
+					<ul class ="nav nav-pills">
+						<li ng-class="panel.isSelected(1)"> <a href ng-click ="panel.setTab(1)">Description</a></li>
+						<li ng-class="panel.isSelected(2)"> <a href ng-click ="panel.setTab(2)">Specificiations</a></li>
+						<li ng-class="panel.isSelected(3)"> <a href ng-click ="panel.setTab(3)">Reviews</a></li>
+					</ul>
+</section>

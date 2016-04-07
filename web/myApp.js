@@ -1,10 +1,18 @@
 (function ()
 {
 	var app=angular.module('myApp',[]);
-	app.controller('myController', function()
+	app.controller('myController', ['$http', function($http )//depdency injeiton, specifying the type of service needed
 	{
-		this.items=things;
-	});
+		//this.items=???;
+		var store=this;
+		//$http({method: 'GET',url:'/products.json'});
+		$http.get('/products.json').success(function(data)
+		{
+			store.products=data;
+
+		});
+
+	}]);
 
 	app.controller('PanelController',function()
 	{
@@ -32,43 +40,23 @@
 			this.review={};
 		}
 	});
-var things=[
-	{
-		name:"itemOne",
-		cost: 2,
-		description: "itemOne description",
-		specs:"itemOne specs",
-		reviews:
-		[{
-			stars:5,
-			body:"I love this product!",
-			author:"person@thomas.com"
-		},
+	app.directive('productTitle', function()
+	{	
+		return
 		{
-			stars:1,
-			body:"This product sucks!",
-			author:"time@thomas.com"
-		}
-		]
 
-	},
+			// returns configuration defning how the directive will work
+			restrict:'E', //type of directive, e for element, usedfor UI
+			templateUrl;'product-title.html'
+		};
+
+	});
+	app.directive('productPanels', function()
 	{
-		name:"item2",
-		cost:3,
-		description: "item2 description",
-		specs:"item2 specs",
-		reviews:
-		[{
-			stars:5,
-			body:"I love this product!",
-			author:"person@thomas.com"
-		},
+		return
 		{
-			stars:1,
-			body:"This product sucks!",
-			author:"tifffme@thomas.com"
-		}
-		]
-	}
-	];
+			restrict:'E',
+			templateUrl:'product-panels'
+		};
+	});
 })();
